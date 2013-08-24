@@ -52,7 +52,10 @@ public class ButtonStateDrawableFactory {
 
 		@Override
 		public RGBA update(RGBA color) {
-			return color.r(color.r() / 2).g(color.g() / 2).b(color.b() / 2);
+			color.r().devide(2);
+			color.g().devide(2);
+			color.b().devide(2);
+			return color;
 		}
 	};
 
@@ -60,7 +63,8 @@ public class ButtonStateDrawableFactory {
 
 		@Override
 		public RGBA update(RGBA color) {
-			return color.a(color.a() / 2);
+			color.a().devide(2);
+			return color;
 		}
 	};
 }

@@ -46,10 +46,10 @@ public class FilteredDrawableFacory {
 	}
 
 	public static class RGBA {
-		private int r;
-		private int g;
-		private int b;
-		private int a;
+		private EightBit r = new EightBit();
+		private EightBit g = new EightBit();
+		private EightBit b = new EightBit();
+		private EightBit a = new EightBit();
 
 		public RGBA() {
 			hexColor(0);
@@ -60,55 +60,47 @@ public class FilteredDrawableFacory {
 		}
 		
 		public FilteredDrawableFacory.RGBA hexColor(int hexColor) {
-			a = (hexColor >>> 24) & 0xff;
-			r = (hexColor >>> 16) & 0xff;
-			g = (hexColor >>> 8) & 0xff;
-			b = hexColor & 0xff;
+			a.value((hexColor >>> 24) & 0xff);
+			r.value((hexColor >>> 16) & 0xff);
+			g.value((hexColor >>> 8) & 0xff);
+			b.value(hexColor & 0xff);
 			return this;
 		} 
 
 		public int hexColor() {
-			return (a << 24) ^ (r << 16) ^ (g << 8) ^ b;
+			return (a.value() << 24) ^ (r.value() << 16) ^ (g.value() << 8) ^ b.value();
 		}
 
-		public int r() {
+		public EightBit r() {
 			return r;
 		}
 
-		public FilteredDrawableFacory.RGBA r(int r) {
-			this.r = clipValue(r);
-			return this;
-		}
-
-		public int g() {
+		public EightBit g() {
 			return g;
 		}
 
-		public FilteredDrawableFacory.RGBA g(int g) {
-			this.g = clipValue(g);
-			return this;
-		}
-
-		public int b() {
+		public EightBit b() {
 			return b;
 		}
 
-		public FilteredDrawableFacory.RGBA b(int b) {
-			this.b = clipValue(b);
-			return this;
-		}
-
-		public int a() {
+		public EightBit a() {
 			return a;
 		}
-
-		public FilteredDrawableFacory.RGBA a(int a) {
-			this.a = clipValue(a);
-			return this;
-		}
-
-		private static int clipValue(int v) {
-			return Math.min(Math.max(0, v), 255);
+		
+		public static class EightBit {
+			private int v = 0;
+			public void value(int v) {
+				this.v = Math.min(Math.max(0, v), 255);
+			}
+			
+			public EightBit devide(int d) {
+				value(value() / d);
+				return this;
+			}
+			
+			public int value() {
+				return v;
+			}
 		}
 
 	}
